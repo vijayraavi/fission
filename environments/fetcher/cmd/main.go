@@ -15,19 +15,13 @@ import (
 	"github.com/fission/fission/environments/fetcher"
 )
 
-func dumpStackTrace() {
-	debug.PrintStack()
-}
-
 // Usage: fetcher <shared volume path>
 func main() {
-	// register signal handler for dumping stack trace.
 	c := make(chan os.Signal, 1)
 	signal.Notify(c, syscall.SIGTERM)
 	go func() {
 		<-c
-		log.Println("Received SIGTERM : Dumping stack trace")
-		dumpStackTrace()
+		log.Println("Received SIGTERM")
 		os.Exit(1)
 	}()
 
