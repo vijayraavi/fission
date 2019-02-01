@@ -36,6 +36,8 @@ spec:
         - name: fluentbit
           image: fluent/fluent-bit:0.13
           imagePullPolicy: {{ .Values.pullPolicy }}
+          # CMD ["/fluent-bit/bin/fluent-bit", "-c", "/fluent-bit/etc/fluent-bit.conf"]
+          command: ["/fluent-bit/bin/fluent-bit", "-c", "/fluent-bit/etc/fluentbit.conf"]
           env:
             - name: INFLUXDB_ADDRESS
               value: influxdb
