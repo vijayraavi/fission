@@ -53,8 +53,6 @@ enableIstio: false
 ## Logger config
 logger:
   influxdbAdmin: "admin"
-  fluentdImage: fluent/fluent-bit
-  fluentdImageTag: 0.13
 
 ## Message queue trigger config
 ### NATS Streaming, enabled by default

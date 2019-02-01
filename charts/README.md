@@ -71,8 +71,6 @@ Parameter | Description | Default
 --------- | ----------- | -------
 `createNamespace` | If true, create `fission-function` and `fission-builder` namespaces | ` true`
 `logger.influxdbAdmin` | Log database admin username | `admin`
-`logger.fluentdImage` | Logger fluentd image | `fluent/fluent-bit`
-`logger.fluentdImageTag` | Fission ui image tag | `0.13`
 `nats.enabled` | Nats streaming enabled | `true`
 `nats.authToken` | Nats streaming auth token | `defaultFissionAuthToken`
 `nats.clusterID` | Nats streaming clusterID | `fissionMQTrigger`
