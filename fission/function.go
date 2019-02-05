@@ -790,9 +790,14 @@ func fnTest(c *cli.Context) error {
 		functionUrl.RawQuery = query.Encode()
 	}
 
+	ctx := context.Background()
+	if deadline := c.Duration("timeout"); deadline > 0 {
+		ctx, _ = context.WithTimeout(ctx, deadline)
+	}
+
 	headers := c.StringSlice("header")
 
-	resp := httpRequest(c.String("method"), functionUrl.String(), c.String("body"), headers)
+	resp := doHTTPRequest(ctx, c.String("method"), functionUrl.String(), c.String("body"), headers)
 	if resp.StatusCode < 400 {
 		body, err := ioutil.ReadAll(resp.Body)
 		util.CheckErr(err, "Function test")
@@ -813,9 +818,9 @@ func fnTest(c *cli.Context) error {
 	return nil
 }
 
-func httpRequest(method, url, body string, headers []string) *http.Response {
+func doHTTPRequest(ctx context.Context, method, url, body string, headers []string) *http.Response {
 	if method == "" {
-		method = "GET"
+		method = http.MethodGet
 	}
 
 	if method != http.MethodGet &&
@@ -836,9 +841,7 @@ func httpRequest(method, url, body string, headers []string) *http.Response {
 		}
 		req.Header.Set(headerKeyValue[0], headerKeyValue[1])
 	}
-
-	client := &http.Client{}
-	resp, err := client.Do(req)
+	resp, err := http.DefaultClient.Do(req.WithContext(ctx))
 	util.CheckErr(err, "execute HTTP request")
 
 	return resp
